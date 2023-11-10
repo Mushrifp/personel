@@ -105,23 +105,43 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
         <script>
-            $("#submit-form").submit((e)=>{
-                e.preventDefault()
-                $.ajax({
-                    url:"https://script.google.com/macros/s/AKfycbxKCnFqfOdHfJZKycfiidB1RzmdziI2AVaZm_QZxISl2MoEbbQ9N4DV4M_g7ODIJoQ/exec",
-                    data:$("#submit-form").serialize(),
-                    method:"post",
-                    success:function (response){
-                        alert("Form submitted successfully")
-                        window.location.reload()
-                        window.location.href="thanks.html"
-                    },
-                    error:function (err){
-                        alert("Something Error")
-        
-                    }
-                })
-            })
+           $("#submit-form").submit((e) => {
+    e.preventDefault();
+
+    // Check if all form fields have values
+    if (validateForm()) {
+        $.ajax({
+            url: "https://script.google.com/macros/s/AKfycbxKCnFqfOdHfJZKycfiidB1RzmdziI2AVaZm_QZxISl2MoEbbQ9N4DV4M_g7ODIJoQ/exec",
+            data: $("#submit-form").serialize(),
+            method: "post",
+            success: function (response) {
+                alert("Form submitted successfully");
+                window.location.reload();
+                // window.location.href="thanks.html"
+            },
+            error: function (err) {
+                alert("Something Error");
+            }
+        });
+    } else {
+        alert("Please fill in all the fields");
+    }
+});
+
+function validateForm() {
+    // Check each input field for a value
+    var isValid = true;
+
+    $("#submit-form input").each(function () {
+        if ($(this).val() === "") {
+            isValid = false;
+            return false; // Exit the loop early if an empty field is found
+        }
+    });
+
+    return isValid;
+}
+
         </script>
     </body>
 </html>
